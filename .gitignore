@@ -1,0 +1,5 @@
+/.doit.db
+/build
+/src_py/hat/duktape/duktape.*
+/test_pytest/.coverage
+__pycache__

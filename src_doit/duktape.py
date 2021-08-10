@@ -1,6 +1,7 @@
 from pathlib import Path
 
-from hat.doit import common
+from hat.doit.c import (lib_suffix,
+                        CBuild)
 
 
 __all__ = ['task_duktape',
@@ -12,7 +13,7 @@ build_dir = Path('build')
 src_c_dir = Path('src_c')
 src_py_dir = Path('src_py')
 
-duktape_path = src_py_dir / f'hat/duktape/duktape{common.lib_suffix}'
+duktape_path = src_py_dir / f'hat/duktape/duktape{lib_suffix}'
 
 
 def task_duktape():
@@ -30,7 +31,7 @@ def task_duktape_dep():
     yield from _build.get_task_deps()
 
 
-_build = common.CBuild(
+_build = CBuild(
     src_paths=[*(src_c_dir / 'duktape').rglob('*.c')],
     src_dir=src_c_dir,
     build_dir=build_dir / 'duktape',

@@ -33,6 +33,5 @@ def task_duktape_dep():
 
 _build = CBuild(
     src_paths=[*(src_c_dir / 'duktape').rglob('*.c')],
-    src_dir=src_c_dir,
     build_dir=build_dir / 'duktape',
     cc_flags=['-fPIC', '-O2'])

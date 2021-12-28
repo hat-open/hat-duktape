@@ -31,8 +31,9 @@ build_docs_dir = build_dir / 'docs'
 
 def task_clean_all():
     """Clean all"""
-    return {'actions': [(common.rm_rf, [build_dir,
-                                        duktape.duktape_path])]}
+    return {'actions': [(common.rm_rf, [
+        build_dir,
+        *(src_py_dir / 'hat/duktape').glob('duktape.*')])]}
 
 
 def task_build():
@@ -46,8 +47,7 @@ def task_build():
             description='Hat Python Duktape JS wrapper',
             url='https://github.com/hat-open/hat-duktape',
             license=common.License.APACHE2,
-            packages=['hat'],
-            platform_specific=True)
+            packages=['hat'])
 
     return {'actions': [build],
             'task_dep': ['duktape']}

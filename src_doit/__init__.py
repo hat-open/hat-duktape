@@ -25,7 +25,7 @@ src_py_dir = Path('src_py')
 pytest_dir = Path('test_pytest')
 docs_dir = Path('docs')
 
-build_py_dir = build_dir / 'py'
+build_py_dir = build_dir / 'py' / common.target_platform.name.lower()
 build_docs_dir = build_dir / 'docs'
 
 
@@ -47,7 +47,8 @@ def task_build():
             description='Hat Python Duktape JS wrapper',
             url='https://github.com/hat-open/hat-duktape',
             license=common.License.APACHE2,
-            packages=['hat'])
+            packages=['hat'],
+            platform=common.target_platform)
 
     return {'actions': [build],
             'task_dep': ['duktape']}

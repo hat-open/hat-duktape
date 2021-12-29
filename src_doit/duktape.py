@@ -1,47 +1,51 @@
 from pathlib import Path
 
-from hat.doit.c import (local_platform,
-                        get_lib_suffix,
-                        Platform,
+from hat.doit import common
+from hat.doit.c import (target_lib_suffix,
                         CBuild)
 
 
 __all__ = ['task_duktape',
            'task_duktape_obj',
-           'task_duktape_dep']
+           'task_duktape_dep',
+           'task_duktape_cleanup']
 
 
 build_dir = Path('build')
 src_c_dir = Path('src_c')
 src_py_dir = Path('src_py')
 
-platforms = [local_platform]
-if local_platform == Platform.LINUX:
-    platforms.append(Platform.WINDOWS)
+duktape_path = src_py_dir / f'hat/duktape/duktape{target_lib_suffix}'
 
-builds = [CBuild(src_paths=[*(src_c_dir / 'duktape').rglob('*.c')],
-                 build_dir=build_dir / 'duktape' / platform.name.lower(),
-                 platform=platform,
-                 cc_flags=['-fPIC', '-O2'])
-          for platform in platforms]
-
-duktape_paths = [src_py_dir / f'hat/duktape/duktape{get_lib_suffix(platform)}'
-                 for platform in platforms]
+build = CBuild(src_paths=[*(src_c_dir / 'duktape').rglob('*.c')],
+               build_dir=(build_dir / 'duktape' /
+                          f'{common.target_platform.name.lower()}'),
+               cc_flags=['-fPIC', '-O2'],
+               task_dep=['duktape_cleanup'])
 
 
 def task_duktape():
     """Build duktape"""
-    for build, duktape_path in zip(builds, duktape_paths):
-        yield build.get_task_lib(duktape_path)
+    yield build.get_task_lib(duktape_path)
 
 
 def task_duktape_obj():
     """Build duktape .o files"""
-    for build in builds:
-        yield from build.get_task_objs()
+    yield from build.get_task_objs()
 
 
 def task_duktape_dep():
     """Build duktape .d files"""
-    for build in builds:
-        yield from build.get_task_deps()
+    yield from build.get_task_deps()
+
+
+def task_duktape_cleanup():
+    """Cleanup duktape"""
+    return {'actions': [_cleanup]}
+
+
+def _cleanup():
+    for path in duktape_path.parent.glob('duktape.*'):
+        if path == duktape_path:
+            continue
+        common.rm_rf(path)

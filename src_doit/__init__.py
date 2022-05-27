@@ -25,7 +25,7 @@ src_py_dir = Path('src_py')
 pytest_dir = Path('test_pytest')
 docs_dir = Path('docs')
 
-build_py_dir = build_dir / 'py' / common.target_platform.name.lower()
+build_py_dir = build_dir / 'py'
 build_docs_dir = build_dir / 'docs'
 
 

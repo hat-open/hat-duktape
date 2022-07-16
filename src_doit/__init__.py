@@ -47,7 +47,6 @@ def task_build():
             description='Hat Python Duktape JS wrapper',
             url='https://github.com/hat-open/hat-duktape',
             license=common.License.APACHE2,
-            packages=['hat'],
             platform=common.target_platform)
 
     return {'actions': [build],

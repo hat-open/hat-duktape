@@ -1,12 +1,11 @@
 from pathlib import Path
 
 from hat.doit import common
+from hat.doit.docs import (build_sphinx,
+                           build_pdoc)
 from hat.doit.py import (build_wheel,
                          run_pytest,
                          run_flake8)
-from hat.doit.docs import (SphinxOutputType,
-                           build_sphinx,
-                           build_pdoc)
 
 from .duktape import *  # NOQA
 from . import duktape
@@ -47,7 +46,8 @@ def task_build():
             description='Hat Python Duktape JS wrapper',
             url='https://github.com/hat-open/hat-duktape',
             license=common.License.APACHE2,
-            platform=common.target_platform)
+            platform=common.target_platform,
+            zip_safe=False)
 
     return {'actions': [build],
             'task_dep': ['duktape']}
@@ -68,9 +68,13 @@ def task_test():
 
 def task_docs():
     """Docs"""
-    return {'actions': [(build_sphinx, [SphinxOutputType.HTML,
-                                        docs_dir,
-                                        build_docs_dir]),
-                        (build_pdoc, ['hat.duktape',
-                                      build_docs_dir / 'py_api'])],
+
+    def build():
+        build_sphinx(src_dir=docs_dir,
+                     dst_dir=build_docs_dir,
+                     project='hat-duktape')
+        build_pdoc(module='hat.duktape',
+                   dst_dir=build_docs_dir / 'py_api')
+
+    return {'actions': [build],
             'task_dep': ['duktape']}

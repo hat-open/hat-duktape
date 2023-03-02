@@ -47,7 +47,7 @@ def task_build():
             url='https://github.com/hat-open/hat-duktape',
             license=common.License.APACHE2,
             platform=common.target_platform,
-            zip_safe=False)
+            has_c_libraries=True)
 
     return {'actions': [build],
             'task_dep': ['duktape']}

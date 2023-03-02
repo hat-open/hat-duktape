@@ -20,7 +20,7 @@ duktape_path = src_py_dir / f'hat/duktape/duktape{target_lib_suffix}'
 build = CBuild(src_paths=[*(src_c_dir / 'duktape').rglob('*.c')],
                build_dir=(build_dir / 'duktape' /
                           f'{common.target_platform.name.lower()}'),
-               cc_flags=['-fPIC', '-O2'],
+               c_flags=['-fPIC', '-O2'],
                task_dep=['duktape_cleanup'])
 
 

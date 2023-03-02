@@ -1,7 +1,7 @@
 """Python ctypes wrapper for duktape JavaScript interpreter"""
 
-from pathlib import Path
 import ctypes
+import importlib.resources
 import sys
 import typing
 
@@ -12,7 +12,6 @@ Data = typing.Union[None, bool, int, float, str,
                     typing.List['Data'], typing.Dict[str, 'Data'],
                     typing.Callable]
 """Supported data types"""
-util.register_type_alias('Data')
 
 
 class EvalError(Exception):
@@ -368,4 +367,10 @@ else:
     _lib_suffix = '.so'
 
 
-_lib = _Lib(Path(__file__).parent / f'duktape{_lib_suffix}')
+# TODO cleanup _lib_path on module unload
+_lib_path = importlib.resources.path(__package__, f'duktape{_lib_suffix}')
+_lib = _Lib(_lib_path)
+
+
+# HACK
+util.register_type_alias('Data')

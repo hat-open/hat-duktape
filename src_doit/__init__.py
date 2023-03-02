@@ -74,7 +74,8 @@ def task_docs():
                      dst_dir=build_docs_dir,
                      project='hat-duktape')
         build_pdoc(module='hat.duktape',
-                   dst_dir=build_docs_dir / 'py_api')
+                   dst_dir=build_docs_dir / 'py_api',
+                   exclude=['hat.duktape.duktape'])
 
     return {'actions': [build],
             'task_dep': ['duktape']}

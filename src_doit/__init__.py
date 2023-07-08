@@ -1,3 +1,5 @@
+from .duktape import *  # NOQA
+
 from pathlib import Path
 
 from hat.doit import common
@@ -7,7 +9,6 @@ from hat.doit.py import (build_wheel,
                          run_pytest,
                          run_flake8)
 
-from .duktape import *  # NOQA
 from . import duktape
 
 

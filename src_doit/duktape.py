@@ -41,11 +41,11 @@ def task_duktape_dep():
 
 def task_duktape_cleanup():
     """Cleanup duktape"""
-    return {'actions': [_cleanup]}
 
+    def cleanup():
+        for path in duktape_path.parent.glob('duktape.*'):
+            if path == duktape_path:
+                continue
+            common.rm_rf(path)
 
-def _cleanup():
-    for path in duktape_path.parent.glob('duktape.*'):
-        if path == duktape_path:
-            continue
-        common.rm_rf(path)
+    return {'actions': [cleanup]}

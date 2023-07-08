@@ -3,9 +3,10 @@
 
 Python ctypes wrapper for JavaScript Duktape engine with minimal API::
 
-    Data = typing.Union[None, bool, int, float, str,
-                        typing.List['Data'], typing.Dict[str, 'Data'],
-                        typing.Callable]
+    Data = (None | bool | int | float | str |
+            typing.List['Data'] |
+            typing.Dict[str, 'Data'] |
+            typing.Callable)
 
     class Interpreter:
 

@@ -16,10 +16,10 @@ Repository = "https://github.com/hat-open/hat-duktape.git"
 Documentation = "http://hat-duktape.hat-open.com"
 
 [project.optional-dependencies]
-dev = ["hat-doit ~=0.15.1"]
+dev = ["hat-doit ~=0.15.4"]
 
 [build-system]
-requires = ["hat-doit ~=0.15.1"]
+requires = ["hat-doit ~=0.15.4"]
 build-backend = "hat.doit.pep517"
 
 [tool.pytest.ini_options]

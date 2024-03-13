@@ -2,7 +2,8 @@
 
 set -e
 
-. $(dirname -- "$0")/env.sh
+PLAYGROUND_PATH=$(dirname "$(realpath "$0")")
+. $PLAYGROUND_PATH/env.sh
 
 TARGET_PLATFORMS="linux_gnu_x86_64
                   linux_musl_x86_64
@@ -17,5 +18,7 @@ for TARGET_PLATFORM in $TARGET_PLATFORMS; do
     export TARGET_PLATFORM
     $PYTHON -m doit clean_all
     $PYTHON -m doit
-    cp $ROOT_PATH/build/py/dist/*.whl $DIST_PATH
+    cp $ROOT_PATH/build/py/*.whl $DIST_PATH
 done
+
+$PYTHON -m doit clean_all

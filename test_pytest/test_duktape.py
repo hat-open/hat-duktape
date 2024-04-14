@@ -81,3 +81,27 @@ def test_invalid_call_js_function():
         f(1);
     """)
     assert result == [1, None]
+
+
+def test_native_function_raise_exception():
+
+    def native_function():
+        raise Exception('abc')
+
+    inter = duktape.Interpreter()
+    inter.set('f', native_function)
+
+    with pytest.raises(duktape.EvalError):
+        inter.eval('f()')
+
+    result = inter.eval('(function() { '
+                        'try { f(); return 123; } '
+                        'catch (e) { return 321; } '
+                        '})()')
+    assert result == 321
+
+
+def test_create_anonymous_function():
+    inter = duktape.Interpreter()
+    x = inter.eval('(function(x) { return x; })')
+    assert x(123) == 123
